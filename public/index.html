@@ -1,1 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0b3d2e">
+  <title>ISU Library Management System</title>
+  <meta name="description" content="Web-based library management system for Isabela State University: search books, check availability, borrow, renew and return.">
+  <meta property="og:title" content="ISU Library Management System">
+  <meta property="og:description" content="Find, borrow, renew and return books online.">
+  <meta property="og:type" content="website">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E📚%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+  <header class="topbar">
+    <div class="brand">
+      <div class="brand-mark">ISU</div>
+      <div>
+        <strong>ISABELA STATE UNIVERSITY</strong>
+        <span>Web-Based Library Management System</span>
+      </div>
+    </div>
+    <button class="menu-btn" id="menuBtn" aria-label="Toggle menu" aria-expanded="false" aria-controls="nav">☰</button>
+    <nav id="nav">
+      <a href="#home">Home</a>
+      <a href="#books">Books</a>
+      <a href="#transactions">Borrowing</a>
+      <a href="#communication">Communication</a>
+      <a href="#research">Research</a>
+      <button class="login-btn" id="openLogin">Login</button>
+    </nav>
+  </header>
 
+  <main id="main">
+    <section id="home" class="hero">
+      <div class="hero-copy">
+        <p class="eyebrow">COLLEGE OF COMPUTING STUDIES, INFORMATION AND COMMUNICATION TECHNOLOGY</p>
+        <h1>Efficient Book Inventory &amp; Borrowing</h1>
+        <p class="lead">A practical web-based library system designed to make finding, borrowing, returning, and monitoring books easier for students and library staff.</p>
+        <div class="hero-actions">
+          <a class="primary" href="#books">Browse Books</a>
+          <a class="secondary" href="#research">View Research Basis</a>
+        </div>
+      </div>
+      <div class="hero-card">
+        <div class="hero-icon">📚</div>
+        <h3>One organized place</h3>
+        <p>Search the collection, check availability, record transactions, and communicate with a library helper.</p>
+      </div>
+    </section>
+
+    <section class="stats">
+      <div><b id="totalBooks">0</b><span>Titles</span></div>
+      <div><b id="availableBooks">0</b><span>Copies Available</span></div>
+      <div><b id="borrowedBooks">0</b><span>On Loan</span></div>
+      <div><b id="overdueBooks">0</b><span>Overdue</span></div>
+    </section>
+
+    <section id="books" class="section">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">LIBRARY COLLECTION</p>
+          <h2>Find a Book</h2>
+          <p>Students can check book availability before going to the library.</p>
+        </div>
+        <div class="controls">
+          <input id="searchInput" type="search" aria-label="Search books" placeholder="Search title, author, category...">
+          <select id="categoryFilter" aria-label="Category"><option value="all">All categories</option></select>
+          <select id="statusFilter" aria-label="Status">
+            <option value="all">All status</option>
+            <option value="available">Available</option>
+            <option value="borrowed">Borrowed</option>
+          </select>
+        </div>
+      </div>
+      <div id="bookGrid" class="book-grid"></div>
+    </section>
+
+    <section id="transactions" class="section alt">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">DIGITAL RECORDS</p>
+          <h2>Borrowing &amp; Returning</h2>
+          <p>Replaces handwritten tracking with organized digital transaction records.</p>
+        </div>
+      </div>
+      <div class="transaction-layout">
+        <div class="panel">
+          <h3 id="loansTitle">My current loans</h3>
+          <div id="myLoans"></div>
+        </div>
+        <div class="panel">
+          <h3>Transaction history</h3>
+          <div id="history"></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="admin" class="section" hidden>
+      <div class="section-head"><div>
+        <p class="eyebrow">LIBRARIAN TOOLS</p><h2>Manage Inventory</h2>
+        <p>Add titles and remove outdated records. Visible to librarian accounts only.</p>
+      </div></div>
+      <form id="bookForm" class="panel book-form">
+        <input id="bkTitle" placeholder="Title" required maxlength="100" aria-label="Title">
+        <input id="bkAuthor" placeholder="Author" required maxlength="60" aria-label="Author">
+        <input id="bkCategory" placeholder="Category" required maxlength="30" aria-label="Category">
+        <input id="bkCopies" type="number" min="1" max="50" value="1" aria-label="Copies">
+        <button class="primary" type="submit">Add Book</button>
+      </form>
+    </section>
+
+    <section id="communication" class="section">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">USER ↔ HELPER</p>
+          <h2>Communication</h2>
+          <p>Ask a library helper about a book, availability, borrowing, or returning.</p>
+        </div>
+      </div>
+      <div class="chat panel">
+        <div id="chatMessages" class="chat-messages"></div>
+        <form id="chatForm" class="chat-form">
+          <input id="chatInput" maxlength="300" placeholder="Type a message to the library helper..." required>
+          <button class="primary" type="submit">Send</button>
+        </form>
+      </div>
+    </section>
+
+    <section id="research" class="section alt">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">PRELIMINARY RESEARCH</p>
+          <h2>Research Basis</h2>
+          <p>The website structure and features below are based on the supplied preliminary research, problem statement, persona, and problem/issue diagram.</p>
+        </div>
+      </div>
+
+      <div class="research-grid">
+        <article class="research-card">
+          <h3>Background</h3>
+          <p>Libraries provide books and learning materials, but manual records can make inventory and borrowing management time-consuming. A centralized web-based system can organize book records, borrowing transactions, returns, and availability.</p>
+        </article>
+        <article class="research-card">
+          <h3>Related Study 1</h3>
+          <p><b>Abdulrazaq, M. B., &amp; Mustafa, O. M. (2017).</b> Designing and implementing an online library management system. The study describes an Online Library Management System intended to improve retrieval, dissemination of information, and library services.</p>
+        </article>
+        <article class="research-card">
+          <h3>Related Study 2</h3>
+          <p><b>Budiarto, A. J., Wijaya, N., Heriawan, R., Kurniadi, F. I., &amp; Juarto, B. (2023).</b> A web-based library management system was proposed to address manual-management limitations in searching, borrowing, returning, and reporting.</p>
+        </article>
+        <article class="research-card">
+          <h3>Synthesis / Relevance</h3>
+          <p>The proposed system focuses on practical features: book inventory, availability checking, borrowing and returning transactions, user records, and a communication channel between users and helpers.</p>
+        </article>
+        <article class="research-card">
+          <h3>Preliminary Conclusion</h3>
+          <p>Manual library management can cause time-consuming processes and inaccurate records. A web-based system can centralize information and automate basic transactions, making library operations more organized and accessible.</p>
+        </article>
+      </div>
+
+      <div class="problem-box">
+        <p class="eyebrow">PROBLEM STATEMENT</p>
+        <h3>How can the system make the process of borrowing and returning books easier and more convenient for students and library staff?</h3>
+      </div>
+
+      <div class="issue-diagram">
+        <div class="diagram-center">Development of a<br><b>Web-Based Library Management System</b><br>for Efficient Book Inventory and Borrowing</div>
+        <div class="diagram-card top"><b>Problem / Issue</b><span>Difficulty in library management such as book inventory and borrowing/returning transactions.</span></div>
+        <div class="diagram-card left"><b>What is currently being done?</b><span>Traditional setup where staff manually record information when a student borrows or returns a book.</span></div>
+        <div class="diagram-card right"><b>What factors contribute?</b><span>Books are inaccessible outside campus because there is no web-based system for checking availability remotely. Manual borrowing and returning also takes more time.</span></div>
+        <div class="diagram-card bottom"><b>Who needs help?</b><span>Staff have difficulty maintaining updated inventory and recording transactions. Students need a faster way to check and access books outside campus.</span></div>
+      </div>
+    </section>
+
+    <section id="persona" class="section">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">PERSONA</p>
+          <h2>Target User</h2>
+        </div>
+      </div>
+      <div class="persona-grid">
+        <article class="persona-main">
+          <div class="avatar">K</div>
+          <div>
+            <h3>KYRGYZSTAN</h3>
+            <p>Age 19 · Female · Student</p>
+            <p>A college student who balances school, family, and friends. She enjoys reading and studying with others and values simple, organized, affordable, and convenient ways to make daily tasks easier.</p>
+          </div>
+        </article>
+        <article><h3>Motivation</h3><p>“If everybody makes it possible, we do way beyond better than it should be.”</p></article>
+        <article><h3>Defining Quote</h3><p>“If there’s a will there’s always a way.”</p></article>
+        <article><h3>Challenges / Pain Points</h3><ul><li>Difficulty finding updated and relevant books</li><li>Trouble tracking borrowed, lent, and returned books</li><li>Manual searching takes too much time</li><li>Disorganized book records</li><li>Confusing transactions</li><li>Difficulty finding books when urgently needed</li></ul></article>
+        <article><h3>Top 3 Needs</h3><ol><li>Updated books</li><li>Organized records of books</li><li>Efficient book transactions</li></ol></article>
+        <article><h3>Likes</h3><p>Discovering new books, studying with friends, simple digital tools.</p><h3>Dislikes</h3><p>Outdated books, disorganized waiting/records, long transaction times.</p></article>
+        <article class="deep-need"><h3>Deep Need Statement</h3><p>KYRGYZSTAN needs a simple and organized way to find, borrow, return, and manage books efficiently. She wants access to updated and available books while avoiding confusing transactions, so she can focus more on studying and reading with less stress.</p></article>
+      </div>
+    </section>
+
+    <section class="section alt">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">PROJECT TEAM</p>
+          <h2>Researchers</h2>
+        </div>
+      </div>
+      <div class="names">
+        <span>Dela Cruz, Zedtrix Ezekiel</span><span>Ferrer, Hannah Lae</span><span>Ferrer, Julian</span>
+        <span>Mijares, Nobe Sheen</span><span>Paulo, Justine</span><span>Rasote, Dazel</span>
+        <span>Reyes, Inqil</span><span>Sanchez, Ivan</span><span>Tomas, Jasmin</span>
+      </div>
+    </section>
+
+    <section class="section references">
+      <h2>References</h2>
+      <p>Abdulrazaq, M. B., &amp; Mustafa, O. M. (2017). Designing and implementing an online library management system. <i>Science Journal of University of Zakho, 5</i>(3), 278–284.</p>
+      <p>Budiarto, A. J., Wijaya, N., Heriawan, R., Kurniadi, F. I., &amp; Juarto, B. (2023). Design and implementation of a web-based library management system. <i>2023 International Conference on Converging Technology in Electrical and Information Engineering (ICCTEIE)</i>, Bandar Lampung, Indonesia.</p>
+    </section>
+  </main>
+
+  <footer>
+    <div><b>ISABELA STATE UNIVERSITY</b><br>College of Computing Studies, Information and Communication Technology</div>
+    <div>Web-Based Library Management System · Demo mode <button class="link-btn" id="resetBtn">Reset demo data</button></div>
+  </footer>
+
+  <div class="modal" id="loginModal" role="dialog" aria-modal="true" aria-labelledby="loginHeading" aria-hidden="true">
+    <div class="modal-card">
+      <button class="close" id="closeLogin" aria-label="Close">×</button>
+      <p class="eyebrow">ACCOUNT ACCESS</p>
+      <h2 id="loginHeading">Library Login</h2>
+      <p class="muted">Demo mode: data stays in this browser only. Student: any email + 4+ character password. Librarian: <code>librarian@isu.edu.ph</code> / <code>library123</code>.</p>
+      <form id="loginForm">
+        <label>Email<input id="email" type="email" placeholder="student@isu.edu.ph" required></label>
+        <label>Password<input id="password" type="password" minlength="4" autocomplete="current-password" placeholder="••••••••" required></label>
+        <button class="primary full" type="submit">Login</button>
+      </form>
+      <div id="loginNotice" class="notice"></div>
+    </div>
+  </div>
+
+  <script src="app.js" defer></script>
+</body>
+</html>
